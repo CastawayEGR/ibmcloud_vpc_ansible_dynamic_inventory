@@ -349,15 +349,11 @@ class IBMCloudInventory():
                 else:
                     attributes['cpu'] = instance["vcpu"]
 
-                if "floating_ips" in primary_network_interface:
+                if "floating_ips" in primary_network_interface and self.args.ansible_host_variable != "private_ip":
                     attributes["floating_ip"] = primary_network_interface["floating_ips"][0]["address"]
                     attributes['ansible_host'] = primary_network_interface["floating_ips"][0]["address"]
                 else:
                     attributes['ansible_host'] = primary_network_interface["primary_ipv4_address"]
-                #if self.args.ansible_host_variable == "private_ip":
-                #    attributes['ansible_host'] = primary_network_interface["primary_ipv4_address"]
-                #elif self.args.ansible_host_variable == "floating_ip" and "floating_ips" in primary_network_interface:
-                #    attributes['ansible_host'] = primary_network_interface["floating_ips"][0]["address"]
 
                 group = []
 
